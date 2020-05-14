@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:dietrecipeflutter/routes.dart';
 
-void main() => runApp(new MyApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Welcome to Flutter',
-      home: new Scaffold(
-        appBar: new AppBar(
-          title: new Text('Welcome to diet app'),
-        ),
-        body: new Center(
-          child: new Text('diet start'),
-        ),
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
+      routes: routes,
     );
   }
 }
