@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:dietrecipeflutter/routes.dart';
+// import 'package:dietrecipeflutter/routes.dart';
+import 'package:dietrecipeflutter/pages/height_input.dart';
+import 'package:dietrecipeflutter/pages/target_weight_input.dart';
+import 'package:dietrecipeflutter/pages/weight_input.dart';
+import 'package:dietrecipeflutter/pages/setting.dart';
+import 'package:dietrecipeflutter/pages/calendar.dart';
+import 'package:dietrecipeflutter/pages/day_result.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,7 +17,17 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      routes: routes,
+      initialRoute: '/',
+      routes: {
+        '/': (BuildContext context) => HeightInputPage(),
+        '/height_input': (BuildContext context) => HeightInputPage(),
+        '/target_weight_input': (BuildContext context) => TargetWeightInputPage(),
+        '/weight_input': (BuildContext context) => WeightInputPage(),
+        '/calendar': (BuildContext context) => CalendarPage(),
+        '/setting': (BuildContext context) => SettingPage(),
+        '/day_result': (BuildContext context) => DayResultPage(),
+      }
+      // routes: routes,
     );
   }
 }
