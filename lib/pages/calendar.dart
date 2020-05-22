@@ -1,23 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_calendar_carousel/classes/event.dart';
+import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart' show CalendarCarousel;
 
-class CalendarPage extends StatelessWidget {
+class CalendarPage extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('カレンダー'),
-      ),
-      body: Center(
-          child: Column(
-        children: <Widget>[
-          RaisedButton(
-            child: Text('戻る'),
-            onPressed: () {
-              Navigator.pushNamed(context, '/height_input');
-            },
-          ),
-        ],
-      )),
-    );
+  State<StatefulWidget> createState() {
+    return _CalenderExampleState();
   }
 }
+
+class _CalenderExampleState extends State<CalendarPage> {
+  DateTime _currentDate = DateTime.now();
+
+  void onDayPressed(DateTime date, List<Event> events) {
+    this.setState(() => _currentDate = date);
+    Fluttertoast.showToast(msg: date.toString());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+        appBar: AppBar(
+          title: Text("カレンダー"),
+        ),
+        body: Container(
+          child: CalendarCarousel<Event>(
+              onDayPressed: onDayPressed,
+              weekendTextStyle: TextStyle(color: Colors.red),
+              thisMonthDayBorderColor: Colors.grey,
+              weekFormat: false,
+              height: 420.0,
+              selectedDateTime: _currentDate,
+              daysHaveCircularBorder: false,
+              customGridViewPhysics: NeverScrollableScrollPhysics(),
+              markedDateShowIcon: true,
+              markedDateIconMaxShown: 2,
+              todayTextStyle: TextStyle(
+                color: Colors.blue,
+              ),
+              markedDateIconBuilder: (event) {
+                return event.icon;
+              },
+              todayBorderColor: Colors.green,
+              markedDateMoreShowTotal: false),
+        ));
+  }
+}
+
