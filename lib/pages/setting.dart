@@ -43,7 +43,7 @@ class SettingPage extends StatelessWidget {
                         ),
                         onTap: () {
                           Navigator.pop(context);
-                          Navigator.pushNamed(context, '/weight_input');
+                          Navigator.pushNamed(context, '/weight_edit');
                         },
                       ),
                     ],
