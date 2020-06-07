@@ -40,6 +40,12 @@ class HeightInputPage extends StatelessWidget {
               Navigator.pushNamed(context, '/day_result');
             },
           ),
+          RaisedButton(
+            child: Text('ユーザー登録'),
+            onPressed: () {
+              Navigator.pushNamed(context, '/entry_user');
+            },
+          ),
         ],
       )),
     );
