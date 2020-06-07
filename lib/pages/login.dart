@@ -56,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
                     // ログインに成功した場合
                     // final FirebaseUser user = result.user;
                     setState(() {
-                      Navigator.of(context).pushNamed("/target_weight_input");
+                      Navigator.of(context).pushNamed("/height_input");
                       // infoText = "ログインOK：${user.email}";
                     });
                   } catch (e) {
