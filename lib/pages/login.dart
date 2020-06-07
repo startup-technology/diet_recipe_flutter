@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -68,6 +68,12 @@ class _LoginPageState extends State<LoginPage> {
                 child: Text("ログイン"),
               ),
               Text(infoText),
+              RaisedButton(
+                child: Text('ユーザー登録'),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/entry_user');
+                },
+              ),
             ],
           ),
         ),
