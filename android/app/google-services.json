@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "752800854516",
+    "firebase_url": "https://mydietapp-652ad.firebaseio.com",
+    "project_id": "mydietapp-652ad",
+    "storage_bucket": "mydietapp-652ad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:752800854516:android:2d63f04df604793b3489a1",
+        "android_client_info": {
+          "package_name": "com.example.dietrecipeflutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "752800854516-gt708qgdvjioj58co1ie1ltd0hqrf5hs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwc_c_BRIfSPMsux5fB54yIeAYTdjteRQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "752800854516-gt708qgdvjioj58co1ie1ltd0hqrf5hs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

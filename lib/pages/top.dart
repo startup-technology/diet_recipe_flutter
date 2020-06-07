@@ -11,6 +11,12 @@ class TopPage extends StatelessWidget {
           child: Column(
         children: <Widget>[
           RaisedButton(
+            child: Text('ログイン'),
+            onPressed: () {
+              Navigator.pushNamed(context, '/login');
+            },
+          ),
+          RaisedButton(
             child: Text('身長登録'),
             onPressed: () {
               Navigator.pushNamed(context, '/height_input');
@@ -23,12 +29,6 @@ class TopPage extends StatelessWidget {
             },
           ),
           RaisedButton(
-            child: Text('体重入力'),
-            onPressed: () {
-              Navigator.pushNamed(context, '/weight_input');
-            },
-          ),
-          RaisedButton(
             child: Text('カレンダー'),
             onPressed: () {
               Navigator.pushNamed(context, '/calendar');
@@ -38,12 +38,6 @@ class TopPage extends StatelessWidget {
             child: Text('設定'),
             onPressed: () {
               Navigator.pushNamed(context, '/setting');
-            },
-          ),
-          RaisedButton(
-            child: Text('教官のお言葉'),
-            onPressed: () {
-              Navigator.pushNamed(context, '/day_result');
             },
           ),
         ],
