@@ -46,7 +46,7 @@ class _HeightInputPageState extends State<HeightInputPage> {
                       onPressed: () {
                         insertCurrentHeight(int.parse(myController.text));
                         findCurrentHeight();
-                        Navigator.pushNamed(context, '/weight_input');
+                        Navigator.pushNamed(context, '/target_weight_input');
                       },
                       child: Text('登録'),
                       color: Color(0xFFFFF8E0),
@@ -68,13 +68,14 @@ class _HeightInputPageState extends State<HeightInputPage> {
   }
 
   createDatabase() async {
-    var databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'diet_recipe.db');
-
-    Database database = await openDatabase(path, version: 1,
-        onCreate: (Database db, int version) async {
-      await db.execute(
-          'CREATE TABLE current_heights(id INTEGER PRIMARY KEY, current_height INTEGER)');
+    Database database = await openDatabase(
+        join(await getDatabasesPath(), 'current_height.db'),
+        version: 1, onCreate: (Database db, int version) async {
+      await db.execute('''
+        create table current_heights (
+          id integer primary key autoincrement,
+          current_height integer not null)
+      ''');
     });
 
     return database;
@@ -83,11 +84,7 @@ class _HeightInputPageState extends State<HeightInputPage> {
   void insertCurrentHeight(int currentHeight) async {
     final Database db = await createDatabase();
 
-    await db.insert(
-      'current_heights',
-      {'current_height': currentHeight},
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    await db.insert('current_heights', {'current_height': currentHeight});
   }
 
   findCurrentHeight() async {
