@@ -38,7 +38,7 @@ class _TargetWeightInputPageState extends State<TargetWeightInputPage> {
                     margin: EdgeInsets.only(left: 30.0, right: 30.0),
                     child: Align(
                       alignment: Alignment.centerRight,
-                      child: Text('cm'),
+                      child: Text('kg'),
                     ),
                   ),
                   ButtonTheme(
@@ -69,13 +69,14 @@ class _TargetWeightInputPageState extends State<TargetWeightInputPage> {
   }
 
   createDatabase() async {
-    var databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'diet_recipe.db');
-
-    Database database = await openDatabase(path, version: 1,
-        onCreate: (Database db, int version) async {
-      await db.execute(
-          'CREATE TABLE target_body_weights(id INTEGER PRIMARY KEY, body_weight INTEGER)');
+    Database database = await openDatabase(
+        join(await getDatabasesPath(), 'target_body_weight.db'),
+        version: 1, onCreate: (Database db, int version) async {
+      await db.execute('''
+        create table target_body_weights (
+          id integer primary key autoincrement,
+          body_weight integer not null)
+      ''');
     });
 
     return database;
@@ -84,11 +85,7 @@ class _TargetWeightInputPageState extends State<TargetWeightInputPage> {
   void insertBodyWeight(int bodyWeight) async {
     final Database db = await createDatabase();
 
-    await db.insert(
-      'target_body_weights',
-      {'body_weight': bodyWeight},
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    await db.insert('target_body_weights', {'body_weight': bodyWeight});
   }
 
   findBodyWeight() async {
