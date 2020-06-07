@@ -1,3 +1,4 @@
+import 'package:dietrecipeflutter/pages/top.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dietrecipeflutter/pages/height_input.dart';
@@ -8,7 +9,7 @@ import 'package:dietrecipeflutter/pages/calendar.dart';
 import 'package:dietrecipeflutter/pages/day_result.dart';
 
 final routes = {
-  '/': (BuildContext context) => HeightInputPage(),
+  '/': (BuildContext context) => TopPage(),
   '/height_input': (BuildContext context) => HeightInputPage(),
   '/target_weight_input': (BuildContext context) => TargetWeightInputPage(),
   '/weight_input': (BuildContext context) => WeightInputPage(),
