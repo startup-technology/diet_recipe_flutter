@@ -46,6 +46,12 @@ class HeightInputPage extends StatelessWidget {
               Navigator.pushNamed(context, '/entry_user');
             },
           ),
+          RaisedButton(
+            child: Text('ログイン'),
+            onPressed: () {
+              Navigator.pushNamed(context, '/login');
+            },
+          ),
         ],
       )),
     );
