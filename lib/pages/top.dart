@@ -29,6 +29,12 @@ class TopPage extends StatelessWidget {
             },
           ),
           RaisedButton(
+            child: Text('今日体重登録'),
+            onPressed: () {
+              Navigator.pushNamed(context, '/weight_input');
+            },
+          ),
+          RaisedButton(
             child: Text('カレンダー'),
             onPressed: () {
               Navigator.pushNamed(context, '/calendar');
