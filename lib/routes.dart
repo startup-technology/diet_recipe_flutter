@@ -2,11 +2,13 @@ import 'package:dietrecipeflutter/pages/top.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dietrecipeflutter/pages/height_input.dart';
-import 'package:dietrecipeflutter/pages/target_weight_input.dart';
 import 'package:dietrecipeflutter/pages/weight_input.dart';
+import 'package:dietrecipeflutter/pages/target_weight_input.dart';
 import 'package:dietrecipeflutter/pages/setting.dart';
 import 'package:dietrecipeflutter/pages/calendar.dart';
 import 'package:dietrecipeflutter/pages/day_result.dart';
+import 'package:dietrecipeflutter/pages/entry_user.dart';
+import 'package:dietrecipeflutter/pages/login.dart';
 
 final routes = {
   '/': (BuildContext context) => TopPage(),
@@ -16,4 +18,6 @@ final routes = {
   '/calendar': (BuildContext context) => CalendarPage(),
   '/setting': (BuildContext context) => SettingPage(),
   '/day_result': (BuildContext context) => DayResultPage(),
+  '/entry_user': (BuildContext context) => EntryUserPage(),
+  '/login': (BuildContext context) => LoginPage(),
 };
