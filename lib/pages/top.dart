@@ -17,7 +17,7 @@ class TopPage extends StatelessWidget {
 
   Widget _targetWeight() {
     return Container(
-        margin: EdgeInsets.only(top: 16.0, bottom: 30.0),
+        margin: EdgeInsets.only(top: 30.0, bottom: 30.0),
         child: Row(
           // 1行目
           children: <Widget>[
