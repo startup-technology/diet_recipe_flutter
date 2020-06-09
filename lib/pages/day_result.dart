@@ -15,8 +15,6 @@ class DayResultPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              // Image.asset('assets/neko1_600x400.jpg'),
-              _resultArea(context),
               _angerlevelArea(),
               _angermessageArea(),
               _snsshareArea()
@@ -25,105 +23,124 @@ class DayResultPage extends StatelessWidget {
         )
       ),
     );
-
-    // return Scaffold(
-    //   appBar: AppBar(
-    //     title: Text('教官のお言葉'),
-    //   ),
-    //   body: Center(
-    //     child: Row(
-    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //       children: <Widget>[
-    //         Flexible(
-    //           child: Column(
-    //             crossAxisAlignment: CrossAxisAlignment.start,
-    //             mainAxisAlignment: MainAxisAlignment.spaceAround,
-    //             children: <Widget>[
-    //               new Row(
-    //                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    //                 children: [
-    //                   new Flexible(
-    //                     child: new Text('User Name:'),
-    //                   ),
-    //                   new Flexible(
-    //                     child: new Card(
-    //                       // margin: const EdgeInsets.all(15.0),
-    //                       // padding: const EdgeInsets.all(3.0),
-    //                       // decoration: new BoxDecoration(
-    //                       //   border: new Border.all(color: Colors.blueAccent)
-    //                       // ),
-    //                       child: new Text(
-    //                         'あああ',
-    //                         style: TextStyle(
-    //                           fontWeight: FontWeight.w600,
-    //                         ),
-    //                         // maxLines: 1,
-    //                         // overflow: TextOverflow.ellipsis,
-    //                       ),
-    //                     ),
-    //                   ),
-    //                 ],
-    //               ),
-    //               new Row(
-    //                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    //                 children: [
-    //                   new Flexible(
-    //                     child: new Text('Password:'),
-    //                   ),
-    //                   new Flexible(
-    //                     child: new Container(
-    //                       margin: const EdgeInsets.all(15.0),
-    //                       padding: const EdgeInsets.all(3.0),
-    //                       decoration: new BoxDecoration(
-    //                           border: new Border.all(color: Colors.blueAccent)),
-    //                       child: new TextField(
-    //                         style: Theme.of(context).textTheme.body1,
-    //                       ),
-    //                     ),
-    //                   ),
-    //                 ],
-    //               ),
-    //               Text(
-    //                 'ああああ',
-    //                 style: TextStyle(
-    //                   fontWeight: FontWeight.w600,
-    //                 ),
-    //                 maxLines: 1,
-    //                 overflow: TextOverflow.ellipsis,
-    //               ),
-    //               Text(
-    //                 'いいいい',
-    //                 style: TextStyle(
-    //                   fontWeight: FontWeight.w400,
-    //                 ),
-    //                 maxLines: 1,
-    //                 overflow: TextOverflow.ellipsis,
-    //               ),
-    //             ],
-    //           ),
-    //         ),
-    //         Text(
-    //           'えええええええええ',
-    //           style:TextStyle(
-    //             background : Paint()..color = Colors.deepOrangeAccent,
-    //             fontSize: 24,
-    //           ),
-    //           textAlign: TextAlign.center,
-    //         ),
-    //         RaisedButton(
-    //           child: Text('戻る'),
-    //           onPressed: () {
-    //             Navigator.pushNamed(context, '/weight_input');
-    //           },
-    //         ),
-    //       ],
-    //     )
-    //   ),
-    // );
   }
 }
 
-Widget _resultArea(context) {
+Widget _angerlevelArea() {
+  return Container(
+    child: Container(
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                _bmi(80,160)
+              ],
+            ),
+          ),
+        ],
+      )
+    )
+  );
+}
+
+Widget _angermessageArea() {
+  return Container(
+    child: Container(
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 4.0),
+        child: Column(
+          children: <Widget>[
+            _message(80, 160)
+          ]
+        ),
+      ),
+    )
+  );
+}
+
+Widget _snsshareArea() {
+  return Container(
+    child: Container(
+      padding: const EdgeInsets.all(16.0),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: const EdgeInsets.only(bottom: 4.0),
+                  child: Text(
+                    "教官のお言葉をシェアして反省しよう",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 16.0,
+                    ),
+                  ),
+                ),
+                Container(
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.share,
+                    ),
+                    onPressed: () {
+                      Share.share(
+                        "シェアしたい内容を記入"
+                      );
+                      // if (_formKey.currentState.validate()) {
+                      //   _formKey.currentState.save();
+                      //   Share.share(
+                      //     "シェアしたい内容を記入"
+                      //   );
+                      // }
+                    },
+                  )
+
+                ),
+                Container(
+                  margin: const EdgeInsets.only(bottom: 4.0),
+                  child: Text(
+                    "※体重はツイートされません",
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      )
+    )
+  );
+}
+
+Widget _bmi(weight, height){
+  var heightMeter = height / 100;
+  double bmi = weight / (heightMeter * heightMeter);
+  var angerPercent;
+  // var message;
+  if (bmi <= 18.5) {
+    angerPercent = '0%';
+    // message = '少しは食べていいんだぞ！';
+  } else if (bmi > 18.5 && bmi <= 23){
+    angerPercent = '10%';
+    // message = 'まだ問題ないけど、油断は禁止だぞ！';
+  } else if (bmi > 23 && bmi <= 25) {
+    angerPercent = '50%';
+    // message = 'お前そろそろやばいんじゃないか！デブになりたいのか！これ以上だとお前は豚だぞ！わかってるのか？';
+  } else if (bmi > 25 && bmi <= 30) {
+    angerPercent = '70%';
+    // message = 'もうお前はデブだな、ラーメン、肉、ご飯がそんなにうまいのか！ダイエットする気はないよね？やめっちまえば？';
+  } else if (bmi > 30 && bmi <= 35) {
+    angerPercent = '80%';
+    // message = 'お前もう豚じゃねえかよ。餌あげよか？';
+  } else if (bmi > 35) {
+    angerPercent = '100%';
+    // message = '死ぬ気でダイエットしないとお前、本当に死んじゃうよ。';
+  }
+  
   return Container(
     child: Card(
       elevation: 4.0,
@@ -135,12 +152,6 @@ Widget _resultArea(context) {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  RaisedButton(
-                    child: Text('戻る'),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/weight_input');
-                    },
-                  ),
                   Container(
                     margin: const EdgeInsets.only(bottom: 4.0),
                     child: Row(
@@ -164,20 +175,39 @@ Widget _resultArea(context) {
                     margin: const EdgeInsets.only(bottom: 4.0),
                     child: Row(
                       children: <Widget>[
+                      Text(
+                        "BMI：",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16.0
+                        ),
+                      ),
+                      Text(
+                        bmi.toStringAsFixed(1),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16.0
+                        ),
+                      ),
+                      ]
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 4.0),
+                    child: Row(
+                      children: <Widget>[
                         Text(
-                          "BMI：",
+                          "怒りレベル: ",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16.0
                           ),
                         ),
                         Text(
-                          "135",
+                          angerPercent,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16.0
                           ),
-                        )
+                        ),
                       ]
-                    ),
+                    )
                   ),
                 ],
               ),
@@ -188,130 +218,56 @@ Widget _resultArea(context) {
               size: 30.0,
             ),
           ],
-        )
+        ),
       )
-    )
+    ),
   );
 }
 
-Widget _angerlevelArea() {
+Widget _message(weight, height){
+  var heightMeter = height / 100;
+  double bmi = weight / (heightMeter * heightMeter);
+  // var angerPercent;
+  var message;
+  var image;
+  if (bmi <= 18.5) {
+    message = '少しは食べていいんだぞ！';
+    image = 'images/kyoukan1.png';
+  } else if (bmi > 18.5 && bmi <= 23){
+    message = 'まだ問題ないけど、\n油断は禁止だぞ！';
+    image = 'images/kyoukan1.png';
+  } else if (bmi > 23 && bmi <= 25) {
+    message = 'お前そろそろやばいんじゃないか！\nデブになりたいのか！\nこれ以上だとお前は豚だぞ！\nわかってるのか？';
+    image = 'images/kyoukan2.png';
+  } else if (bmi > 25 && bmi <= 30) {
+    message = 'もうお前はデブだな、ラーメン、肉、ご飯が\nそんなにうまいのか！\nダイエットする気はないよね？\nやめっちまえば？';
+    image = 'images/kyoukan3.png';
+  } else if (bmi > 30 && bmi <= 35) {
+    message = 'お前もう豚じゃねえかよ。\n餌あげよか？';
+    image = 'images/kyoukan4.png';
+  } else if (bmi > 35) {
+    message = '死ぬ気でダイエットしないとお前、\n本当に死んじゃうよ。';
+    image = 'images/kyoukan4.png';
+  }
+  
   return Container(
     child: Container(
       padding: const EdgeInsets.all(16.0),
       child: Row(
         children: <Widget>[
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  margin: const EdgeInsets.only(bottom: 4.0),
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        "怒りレベル",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16.0
-                        ),
-                      ),
-                      Text(
-                        "80%",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16.0
-                        ),
-                      )
-                    ]
-                  ),
-                ),
-              ],
-            ),
-          ),
           Image(
-            image: AssetImage('images/instructor.png'),
+            image: AssetImage(image),
             fit: BoxFit.fill,
-            width: 100.0,
+            height: 100.0,
+          ),
+          Text(
+            message,
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 16.0
+            ),
           ),
         ],
-      )
-    )
-  );
-}
-
-Widget _angermessageArea() {
-  return Container(
-    child: Container(
-      // padding: const EdgeInsets.all(16.0),
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 4.0),
-        child: Column(
-          children: <Widget>[
-            Image(
-              image: AssetImage('images/bubble.png'),
-              fit: BoxFit.fill,
-              height: 400.0,
-            ),
-          ]
-        ),
       ),
-    )
-  );
-}
-
-Widget _snsshareArea() {
-  return Container(
-    child: Card(
-      elevation: 4.0,
-      child: Container(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 4.0),
-                    child: Text(
-                      "教官のお言葉をTweetして反省しよう",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 16.0,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.share,
-                      ),
-                      onPressed: () {
-                        Share.share(
-                          "シェアしたい内容を記入"
-                        );
-                        // if (_formKey.currentState.validate()) {
-                        //   _formKey.currentState.save();
-                        //   Share.share(
-                        //     "シェアしたい内容を記入"
-                        //   );
-                        // }
-                      },
-                    )
-
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 4.0),
-                    child: Text(
-                      "※体重はツイートされません",
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        )
-      )
     )
   );
 }
