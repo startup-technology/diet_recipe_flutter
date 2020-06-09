@@ -24,19 +24,19 @@ class _DayResultPageState extends State<DayResultPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          appBar: AppBar(
-            title: Text('教官のお言葉'),
-          ),
-          body: Container(
-              margin: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  _angerlevelArea(bodyWeight, currentHeight),
-                  _angermessageArea(bodyWeight, currentHeight),
-                  _snsshareArea()
-                ],
-              ))),
+      appBar: AppBar(
+        title: Text('教官のお言葉'),
+      ),
+      body: Container(
+          margin: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              _angerlevelArea(bodyWeight, currentHeight),
+              _angermessageArea(bodyWeight, currentHeight),
+              _snsshareArea()
+            ],
+          )),
     );
   }
 
