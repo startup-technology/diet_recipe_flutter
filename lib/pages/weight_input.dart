@@ -91,8 +91,7 @@ class _WeightInputPageState extends State<WeightInputPage> {
   findBodyWeight() async {
     final Database db = await createDatabase();
 
-    List<Map> bodyWeights =
-        await db.rawQuery('SELECT * FROM current_weights');
+    List<Map> bodyWeights = await db.rawQuery('SELECT * FROM current_weights');
 
     print(bodyWeights);
 
