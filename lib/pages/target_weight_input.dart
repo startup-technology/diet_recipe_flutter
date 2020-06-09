@@ -46,7 +46,6 @@ class _TargetWeightInputPageState extends State<TargetWeightInputPage> {
                     child: RaisedButton(
                       onPressed: () {
                         insertBodyWeight(int.parse(myController.text));
-                        findBodyWeight();
                         Navigator.pushNamed(context, '/weight_input');
                       },
                       child: Text('登録'),
@@ -70,7 +69,7 @@ class _TargetWeightInputPageState extends State<TargetWeightInputPage> {
 
   createDatabase() async {
     Database database = await openDatabase(
-        join(await getDatabasesPath(), 'target_body_weight.db'),
+        join(await getDatabasesPath, 'target_body_weight.db'),
         version: 1, onCreate: (Database db, int version) async {
       await db.execute('''
         create table target_body_weights (
@@ -86,16 +85,5 @@ class _TargetWeightInputPageState extends State<TargetWeightInputPage> {
     final Database db = await createDatabase();
 
     await db.insert('target_body_weights', {'body_weight': bodyWeight});
-  }
-
-  findBodyWeight() async {
-    final Database db = await createDatabase();
-
-    List<Map> bodyWeights =
-        await db.rawQuery('SELECT * FROM target_body_weights');
-
-    print(bodyWeights);
-
-    return bodyWeights;
   }
 }

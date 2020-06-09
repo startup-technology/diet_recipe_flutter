@@ -64,7 +64,6 @@ class _WeightInputPageState extends State<WeightInputPage> {
                       onPressed: () {
                         insertBodyWeight(DateFormat('yyyy-MM-dd').format(now),
                             int.parse(bodyWeightController.text));
-                        findBodyWeight();
                         Navigator.pushNamed(context, '/day_result');
                       },
                     ),
@@ -87,7 +86,7 @@ class _WeightInputPageState extends State<WeightInputPage> {
 
   createDatabase() async {
     Database database = await openDatabase(
-        join(await getDatabasesPath(), 'body_weight.db'),
+        join(await getDatabasesPath, 'body_weight.db'),
         version: 1, onCreate: (Database db, int version) async {
       await db.execute('''
         create table body_weights (
@@ -108,15 +107,5 @@ class _WeightInputPageState extends State<WeightInputPage> {
       {'input_date': inputDate, 'body_weight': bodyWeight},
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-  }
-
-  findBodyWeight() async {
-    final Database db = await createDatabase();
-
-    List<Map> bodyWeights = await db.rawQuery('SELECT * FROM body_weights');
-
-    print(bodyWeights);
-
-    return bodyWeights;
   }
 }
