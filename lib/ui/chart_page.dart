@@ -5,7 +5,12 @@ import 'package:dietrecipeflutter/ui/chart/line_chart.dart';
 // import 'package:dietrecipeflutter/ui/chart/bar_chart.dart';
 // import 'package:dietrecipeflutter/ui/chart/pie_chart.dart';
 
-class ChartPage extends StatelessWidget {
+class ChartPage extends StatefulWidget {
+  @override
+  _ChartPageState createState() => _ChartPageState();
+}
+
+class _ChartPageState extends State<ChartPage> {
   List<double> points = [50, 90, 1003, 500, 150, 120, 200, 80];
 
   List<String> labels = [

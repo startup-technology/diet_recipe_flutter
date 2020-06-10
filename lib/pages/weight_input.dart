@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:intl/intl.dart';
+import 'package:dietrecipeflutter/database/database_helper.dart';
 
 class WeightInputPage extends StatefulWidget {
   @override
@@ -11,6 +10,7 @@ class WeightInputPage extends StatefulWidget {
 class _WeightInputPageState extends State<WeightInputPage> {
   final inputDateController = TextEditingController();
   final bodyWeightController = TextEditingController();
+  final dbHelper = DatabaseHelper.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -84,27 +84,11 @@ class _WeightInputPageState extends State<WeightInputPage> {
     super.dispose();
   }
 
-  createDatabase() async {
-    var databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'body_weight.db');
-
-    Database database = await openDatabase(path, version: 1,
-        onCreate: (Database db, int version) async {
-      await db.execute('''
-        create table body_weights (
-          id integer primary key autoincrement,
-          input_date datetime not null,
-          body_weight integer not null)
-      ''');
-    });
-
-    return database;
-  }
-
   void insertBodyWeight(String inputDate, int bodyWeight) async {
-    final Database db = await createDatabase();
-
-    await db.insert(
-        'body_weights', {'input_date': inputDate, 'body_weight': bodyWeight});
+    Map<String, dynamic> row = {
+      'input_date' : inputDate,
+      'body_weight': bodyWeight
+    };
+    await dbHelper.insert(row, 'body_weights');
   }
 }

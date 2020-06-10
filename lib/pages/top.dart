@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:dietrecipeflutter/ui/chart/line_chart.dart';
-import 'package:dietrecipeflutter/ui/chart/bar_chart.dart';
-import 'package:dietrecipeflutter/ui/chart/pie_chart.dart';
+// import 'package:dietrecipeflutter/ui/chart/bar_chart.dart';
+// import 'package:dietrecipeflutter/ui/chart/pie_chart.dart';
 
-class TopPage extends StatelessWidget {
+class TopPage extends StatefulWidget {
+  @override
+  _TopPageState createState() => _TopPageState();
+}
+
+class _TopPageState extends State<TopPage> {
   List<double> points = [50, 55, 60, 55, 60, 61, 55, 54];
 
   List<String> labels = [
