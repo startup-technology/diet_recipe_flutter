@@ -69,7 +69,7 @@ class _TargetWeightInputPageState extends State<TargetWeightInputPage> {
 
   void insertBodyWeight(int bodyWeight) async {
     Map<String, dynamic> row = {
-      'body_weight' : bodyWeight,
+      'body_weight': bodyWeight,
     };
     await dbHelper.insert(row, 'target_body_weights');
   }
