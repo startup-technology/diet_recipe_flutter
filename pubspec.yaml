@@ -26,6 +26,7 @@ dependencies:
 
   sqflite:
   path:
+  path_provider:
   intl:
 
   firebase_auth: ^0.16.0

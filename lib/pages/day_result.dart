@@ -46,7 +46,6 @@ class _DayResultPageState extends State<DayResultPage> {
     final Database db = await openDatabase(path);
 
     DateTime now = DateTime.now();
-
     List<Map> bodyWeights = await db.rawQuery('''
         SELECT * 
         FROM body_weights 

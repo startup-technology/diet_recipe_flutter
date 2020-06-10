@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:dietrecipeflutter/database/database_helper.dart';
 
 class TargetWeightInputPage extends StatefulWidget {
   @override
@@ -9,6 +9,7 @@ class TargetWeightInputPage extends StatefulWidget {
 
 class _TargetWeightInputPageState extends State<TargetWeightInputPage> {
   final myController = TextEditingController();
+  final dbHelper = DatabaseHelper.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +71,7 @@ class _TargetWeightInputPageState extends State<TargetWeightInputPage> {
   createDatabase() async {
     var databasesPath = await getDatabasesPath();
     String path = join(databasesPath, 'target_body_weight.db');
-    
+
     Database database = await openDatabase(path, version: 1,
         onCreate: (Database db, int version) async {
       await db.execute('''
@@ -84,17 +85,16 @@ class _TargetWeightInputPageState extends State<TargetWeightInputPage> {
   }
 
   void insertBodyWeight(int bodyWeight) async {
-    final Database db = await createDatabase();
-
-    await db.insert('target_body_weights', {'body_weight': bodyWeight});
+    Map<String, dynamic> row = {
+      'body_weight': bodyWeight,
+    };
+    await dbHelper.insert(row, 'target_body_weights');
   }
 
   findBodyWeight() async {
-    final Database db = await createDatabase();
-
+    Database db = await dbHelper.database;
     List<Map> bodyWeights = await db
         .rawQuery('SELECT * FROM target_body_weights ORDER BY ID DESC LIMIT 1');
-
     return bodyWeights;
   }
 
