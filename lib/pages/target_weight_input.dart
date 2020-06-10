@@ -83,15 +83,11 @@ class _TargetWeightInputPageState extends State<TargetWeightInputPage> {
   }
 
   void insertBodyWeight(int bodyWeight) async {
-    // final Database db = await createDatabase();
-    Database db = await DatabaseHelper.instance.database;
-
+    // Database db = await DatabaseHelper.instance.database;
     Map<String, dynamic> row = {
-      DatabaseHelper.columnBodyWeight : bodyWeight,
+      'body_weight' : bodyWeight,
     };
-
-   int id = await db.insert(DatabaseHelper.table, row);
-    print(await db.query(DatabaseHelper.table));
+    await DatabaseHelper.insert(row);
   }
 
   // findBodyWeight() async {
