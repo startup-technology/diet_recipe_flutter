@@ -5,7 +5,7 @@ import 'package:dietrecipeflutter/ui/chart/pie_chart.dart';
 
 class TopPage extends StatelessWidget {
   List<double> points = [50, 55, 60, 55, 60, 61, 55, 54];
-  
+
   List<String> labels = [
     "2012",
     "2013",
@@ -26,16 +26,22 @@ class TopPage extends StatelessWidget {
       body: Card(
           margin: EdgeInsets.all(15.0),
           child: Column(
-            children: <Widget>[_targetWeight(), _currentWeight(),
-            Text('体重変動', style: TextStyle(fontSize: 20.0)), // 3.1.1
-            Container(
+            children: <Widget>[
+              _targetWeight(), _currentWeight(),
+              Text('体重変動', style: TextStyle(fontSize: 20.0)), // 3.1.1
+              Container(
                 margin: EdgeInsets.only(top: 15.0),
                 child: CustomPaint(
-                  size: Size(250, 250),
-                  painter: LineChart(points: points, pointSize: 5.0, pointColor: Colors.pinkAccent, lineColor: Colors.pinkAccent, lineWidth: 2.0),
+                  size: Size(240, 240),
+                  painter: LineChart(
+                      points: points,
+                      pointSize: 5.0,
+                      pointColor: Colors.pinkAccent,
+                      lineColor: Colors.pinkAccent,
+                      lineWidth: 2.0),
                 ),
               ),
-              ],
+            ],
           )),
     );
   }
