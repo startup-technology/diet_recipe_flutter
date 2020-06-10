@@ -8,6 +8,7 @@ import 'package:dietrecipeflutter/pages/target_weight_input.dart';
 import 'package:dietrecipeflutter/pages/setting.dart';
 import 'package:dietrecipeflutter/pages/calendar.dart';
 import 'package:dietrecipeflutter/pages/day_result.dart';
+import 'package:dietrecipeflutter/pages/day_log.dart';
 import 'package:dietrecipeflutter/pages/entry_user.dart';
 import 'package:dietrecipeflutter/pages/login.dart';
 
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         '/calendar': (BuildContext context) => CalendarPage(),
         '/setting': (BuildContext context) => SettingPage(),
         '/day_result': (BuildContext context) => DayResultPage(),
+        '/day_log': (BuildContext context) => DayLogPage(),
         '/entry_user': (BuildContext context) => EntryUserPage(),
         '/login': (BuildContext context) => LoginPage(),
       },

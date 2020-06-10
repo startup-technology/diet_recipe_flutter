@@ -15,7 +15,12 @@ class _CalenderExampleState extends State<CalendarPage> {
 
   void onDayPressed(DateTime date, List<Event> events) {
     this.setState(() => _currentDate = date);
-    Fluttertoast.showToast(msg: date.toString());
+    //Fluttertoast.showToast(msg: date.toString());
+    Navigator.pushNamed(
+        context,
+        '/day_log',
+        arguments: date
+    );
   }
 
   @override
@@ -26,13 +31,14 @@ class _CalenderExampleState extends State<CalendarPage> {
         ),
         body: Container(
           child: CalendarCarousel<Event>(
+              locale: 'JA',
               onDayPressed: onDayPressed,
               weekendTextStyle: TextStyle(color: Colors.red),
               thisMonthDayBorderColor: Colors.grey,
               weekFormat: false,
               height: 420.0,
               selectedDateTime: _currentDate,
-              daysHaveCircularBorder: false,
+              daysHaveCircularBorder: true,
               customGridViewPhysics: NeverScrollableScrollPhysics(),
               markedDateShowIcon: true,
               markedDateIconMaxShown: 2,
