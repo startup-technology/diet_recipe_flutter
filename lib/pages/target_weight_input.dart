@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:dietrecipeflutter/database/database_helper.dart';
 
 class TargetWeightInputPage extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class _TargetWeightInputPageState extends State<TargetWeightInputPage> {
     return Scaffold(
       backgroundColor: Color(0xFFFFFFFFF),
       appBar: AppBar(
-        title: Text('目標体重を入力してください'),
+        title: Text(title()),
       ),
       body: Center(
         child: Column(
@@ -46,7 +47,6 @@ class _TargetWeightInputPageState extends State<TargetWeightInputPage> {
                     child: RaisedButton(
                       onPressed: () {
                         insertBodyWeight(int.parse(myController.text));
-                        findBodyWeight();
                         Navigator.pushNamed(context, '/weight_input');
                       },
                       child: Text('登録'),
@@ -69,33 +69,48 @@ class _TargetWeightInputPageState extends State<TargetWeightInputPage> {
   }
 
   createDatabase() async {
-    Database database = await openDatabase(
-        join(await getDatabasesPath(), 'target_body_weight.db'),
-        version: 1, onCreate: (Database db, int version) async {
-      await db.execute('''
-        create table target_body_weights (
-          id integer primary key autoincrement,
-          body_weight integer not null)
-      ''');
-    });
+    // Database database = await openDatabase(
+    //     join(await getDatabasesPath, 'target_body_weight.db'),
+    //     version: 1, onCreate: (Database db, int version) async {
+    //   await db.execute('''
+    //     create table target_body_weights (
+    //       id integer primary key autoincrement,
+    //       body_weight integer not null)
+    //   ''');
+    // });
 
-    return database;
+    // return database;
   }
 
   void insertBodyWeight(int bodyWeight) async {
-    final Database db = await createDatabase();
+    // final Database db = await createDatabase();
+    Database db = await DatabaseHelper.instance.database;
 
-    await db.insert('target_body_weights', {'body_weight': bodyWeight});
+    Map<String, dynamic> row = {
+      DatabaseHelper.columnBodyWeight : bodyWeight,
+    };
+
+   int id = await db.insert(DatabaseHelper.table, row);
+    print(await db.query(DatabaseHelper.table));
   }
 
-  findBodyWeight() async {
-    final Database db = await createDatabase();
+  // findBodyWeight() async {
+  //   final Database db = await createDatabase();
 
-    List<Map> bodyWeights =
-        await db.rawQuery('SELECT * FROM target_body_weights');
+  //   List<Map> bodyWeights = await db
+  //       .rawQuery('SELECT * FROM target_body_weights ORDER BY ID DESC LIMIT 1');
 
-    print(bodyWeights);
+  //   return bodyWeights;
+  // }
 
-    return bodyWeights;
+  title() {
+    var title;
+    // if (findBodyWeight() != null) {
+    //   title = '目標体重を編集してください';
+    // } else {
+    //   title = '目標体重を入力してください';
+    // }
+    title = '目標体重を入力してください';
+    return title;
   }
 }

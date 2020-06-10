@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:intl/intl.dart';
 
 class WeightInputPage extends StatefulWidget {
   @override
@@ -8,10 +9,13 @@ class WeightInputPage extends StatefulWidget {
 }
 
 class _WeightInputPageState extends State<WeightInputPage> {
-  final myController = TextEditingController();
+  final inputDateController = TextEditingController();
+  final bodyWeightController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final DateTime now = DateTime.now();
+
     return Scaffold(
       backgroundColor: Color(0xFFFFFFFFF),
       appBar: AppBar(
@@ -28,7 +32,18 @@ class _WeightInputPageState extends State<WeightInputPage> {
                   Container(
                     margin: EdgeInsets.only(left: 30.0, right: 30.0),
                     child: TextField(
-                      controller: myController,
+                      controller: inputDateController
+                        ..text = DateFormat('yyyy年 MM月dd日').format(now),
+                      enabled: false,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 30.0, left: 30.0, right: 30.0),
+                    child: TextField(
+                      controller: bodyWeightController,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                       ),
@@ -44,13 +59,13 @@ class _WeightInputPageState extends State<WeightInputPage> {
                   ButtonTheme(
                     minWidth: double.infinity,
                     child: RaisedButton(
+                      child: Text('登録して教官のお言葉をもらう'),
+                      color: Color(0xFFFFF8E0),
                       onPressed: () {
-                        insertBodyWeight(int.parse(myController.text));
-                        findBodyWeight();
+                        insertBodyWeight(DateFormat('yyyy-MM-dd').format(now),
+                            int.parse(bodyWeightController.text));
                         Navigator.pushNamed(context, '/day_result');
                       },
-                      child: Text('登録'),
-                      color: Color(0xFFFFF8E0),
                     ),
                   ),
                 ],
@@ -64,17 +79,20 @@ class _WeightInputPageState extends State<WeightInputPage> {
 
   @override
   void dispose() {
-    myController.dispose();
+    inputDateController.dispose();
+    bodyWeightController.dispose();
     super.dispose();
   }
 
   createDatabase() async {
+    var databasesPath = getDatabasesPath();
     Database database = await openDatabase(
-        join(await getDatabasesPath(), 'current_weight.db'),
+        join(await databasesPath, 'body_weight.db'),
         version: 1, onCreate: (Database db, int version) async {
       await db.execute('''
-        create table current_weights (
+        create table body_weights (
           id integer primary key autoincrement,
+          input_date datetime not null,
           body_weight integer not null)
       ''');
     });
@@ -82,19 +100,10 @@ class _WeightInputPageState extends State<WeightInputPage> {
     return database;
   }
 
-  void insertBodyWeight(int bodyWeight) async {
+  void insertBodyWeight(String inputDate, int bodyWeight) async {
     final Database db = await createDatabase();
 
-    await db.insert('current_weights', {'current_weight': bodyWeight});
-  }
-
-  findBodyWeight() async {
-    final Database db = await createDatabase();
-
-    List<Map> bodyWeights = await db.rawQuery('SELECT * FROM current_weights');
-
-    print(bodyWeights);
-
-    return bodyWeights;
+    await db.insert(
+        'body_weights', {'input_date': inputDate, 'body_weight': bodyWeight});
   }
 }

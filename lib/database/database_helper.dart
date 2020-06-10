@@ -8,11 +8,10 @@ class DatabaseHelper {
   static final _databaseName = "diet_recipe.db";
   static final _databaseVersion = 1;
 
-  static final table = 'my_table'; // テーブル名
+  static final table = 'target_body_weights'; // テーブル名
   
   static final columnId = '_id'; // 列1
-  static final columnName = 'name'; // 列2
-  static final columnAge = 'age'; // 列3
+  static final columnBodyWeight = 'body_weight'; // 列2
 
   // DatabaseHelperクラスをシングルトンにするためのコンストラクタ
   DatabaseHelper._privateConstructor();
@@ -40,13 +39,7 @@ class DatabaseHelper {
   // DBを作成するメソッド
   Future _onCreate(Database db, int version) async {
     // ダブルクォートもしくはシングルクォート3つ重ねることで改行で文字列を作成できる。$変数名は、クラス内の変数のこと（文字列の中で使える）
-    await db.execute('''
-          CREATE TABLE $table (
-            $columnId INTEGER PRIMARY KEY,
-            $columnName TEXT NOT NULL,
-            $columnAge INTEGER NOT NULL
-          )
-          ''');
+    await db.execute('CREATE TABLE $table ($columnId INTEGER PRIMARY KEY, $columnBodyWeight INTEGER NOT NULL)');
   }
   
   // Helper methods

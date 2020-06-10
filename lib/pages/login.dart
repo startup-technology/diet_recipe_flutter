@@ -54,10 +54,10 @@ class _LoginPageState extends State<LoginPage> {
                       password: loginUserPassword,
                     );
                     // ログインに成功した場合
-                    // final FirebaseUser user = result.user;
+                    final FirebaseUser user = result.user;
                     setState(() {
                       Navigator.of(context).pushNamed("/height_input");
-                      // infoText = "ログインOK：${user.email}";
+                      infoText = "ログインOK：${user.email}";
                     });
                   } catch (e) {
                     // ログインに失敗した場合
