@@ -90,8 +90,8 @@ class _TargetWeightInputPageState extends State<TargetWeightInputPage> {
   findBodyWeight() async {
     final Database db = await createDatabase();
 
-    List<Map> bodyWeights =
-        await db.rawQuery('SELECT * FROM target_body_weights ORDER BY ID DESC LIMIT 1');
+    List<Map> bodyWeights = await db
+        .rawQuery('SELECT * FROM target_body_weights ORDER BY ID DESC LIMIT 1');
 
     return bodyWeights;
   }

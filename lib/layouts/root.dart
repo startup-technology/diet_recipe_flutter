@@ -12,15 +12,15 @@ class Footer extends StatefulWidget {
 class _Footer extends State<Footer> {
   int _selectedIndex = 0;
   final _bottomNavigationBarItems = <BottomNavigationBarItem>[];
- 
+
   // アイコン情報
   final Map _footerIcons = {
-    'ホーム' : {'icon': Icons.home, 'route': TopPage()},
-    'カレンダー' : {'icon': Icons.calendar_today, 'route': CalendarPage()},
-    '身長入力' : {'icon': Icons.create, 'route': HeightInputPage()},
-    '設定' : {'icon': Icons.settings, 'route': SettingPage()},
+    'ホーム': {'icon': Icons.home, 'route': TopPage()},
+    'カレンダー': {'icon': Icons.calendar_today, 'route': CalendarPage()},
+    '身長入力': {'icon': Icons.create, 'route': HeightInputPage()},
+    '設定': {'icon': Icons.settings, 'route': SettingPage()},
   };
- 
+
   // アイコン順番
   final List _footerItemOrder = [
     'ホーム',
@@ -28,15 +28,15 @@ class _Footer extends State<Footer> {
     '身長入力',
     '設定',
   ];
- 
+
   @override
   void initState() {
     super.initState();
-    for ( var i = 0; i < _footerItemOrder.length; i++) {
+    for (var i = 0; i < _footerItemOrder.length; i++) {
       _bottomNavigationBarItems.add(_createIcon(_footerItemOrder[i]));
     }
   }
- 
+
   // アイコンを作成する
   BottomNavigationBarItem _createIcon(String key) {
     return BottomNavigationBarItem(
@@ -44,18 +44,18 @@ class _Footer extends State<Footer> {
       title: Text(key),
     );
   }
- 
+
   void _onItemTapped(int index) {
-    setState( () {
+    setState(() {
       _selectedIndex = index;
     });
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body : _footerIcons[_footerItemOrder.asMap()[_selectedIndex]]['route'],
-        bottomNavigationBar: BottomNavigationBar(
+      body: _footerIcons[_footerItemOrder.asMap()[_selectedIndex]]['route'],
+      bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: _bottomNavigationBarItems,
         currentIndex: _selectedIndex,
