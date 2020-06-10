@@ -45,7 +45,6 @@ class _HeightInputPageState extends State<HeightInputPage> {
                     child: RaisedButton(
                       onPressed: () {
                         insertCurrentHeight(int.parse(myController.text));
-                        findCurrentHeight();
                         Navigator.pushNamed(context, '/target_weight_input');
                       },
                       child: Text('登録'),
@@ -69,7 +68,7 @@ class _HeightInputPageState extends State<HeightInputPage> {
 
   createDatabase() async {
     Database database = await openDatabase(
-        join(await getDatabasesPath(), 'current_height.db'),
+        join(await getDatabasesPath, 'current_height.db'),
         version: 1, onCreate: (Database db, int version) async {
       await db.execute('''
         create table current_heights (
@@ -92,8 +91,6 @@ class _HeightInputPageState extends State<HeightInputPage> {
 
     List<Map> currentHeights =
         await db.rawQuery('SELECT * FROM current_heights');
-
-    print(currentHeights);
 
     return currentHeights;
   }
