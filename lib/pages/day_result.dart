@@ -98,28 +98,21 @@ Widget _snsshareArea() {
 }
 
 Widget _bmi(weight, height) {
-  var height_meter = height / 100;
-  double bmi = weight / (height_meter * height_meter);
-  var anger_percent;
-  var message;
+  var heightMeter = height / 100;
+  double bmi = weight / (heightMeter * heightMeter);
+  var angerPercent;
   if (bmi <= 18.5) {
-    anger_percent = '0%';
-    message = '少しは食べていいんだぞ！';
+    angerPercent = '0%';
   } else if (bmi > 18.5 && bmi <= 23) {
-    anger_percent = '10%';
-    message = 'まだ問題ないけど、油断は禁止だぞ！';
+    angerPercent = '10%';
   } else if (bmi > 23 && bmi <= 25) {
-    anger_percent = '50%';
-    message = 'お前そろそろやばいんじゃないか！デブになりたいのか！これ以上だとお前は豚だぞ！わかってるのか？';
+    angerPercent = '50%';
   } else if (bmi > 25 && bmi <= 30) {
-    anger_percent = '70%';
-    message = 'もうお前はデブだな、ラーメン、肉、ご飯がそんなにうまいのか！ダイエットする気はないよね？やめっちまえば？';
+    angerPercent = '70%';
   } else if (bmi > 30 && bmi <= 35) {
-    anger_percent = '80%';
-    message = 'お前もう豚じゃねえかよ。餌あげよか？';
+    angerPercent = '80%';
   } else if (bmi > 35) {
-    anger_percent = '100%';
-    message = '死ぬ気でダイエットしないとお前、本当に死んじゃうよ。';
+    angerPercent = '100%';
   }
 
   return Container(
@@ -172,7 +165,7 @@ Widget _bmi(weight, height) {
                                 fontWeight: FontWeight.bold, fontSize: 16.0),
                           ),
                           Text(
-                            anger_percent,
+                            angerPercent,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16.0),
                           ),
@@ -192,9 +185,8 @@ Widget _bmi(weight, height) {
 }
 
 Widget _message(weight, height) {
-  var height_meter = height / 100;
-  double bmi = weight / (height_meter * height_meter);
-  var anger_percent;
+  var heightMeter = height / 100;
+  double bmi = weight / (heightMeter * heightMeter);
   var message;
   var image;
   if (bmi <= 18.5) {

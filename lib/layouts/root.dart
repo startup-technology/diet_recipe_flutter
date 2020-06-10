@@ -33,12 +33,12 @@ class _Footer extends State<Footer> {
   void initState() {
     super.initState();
     for ( var i = 0; i < _footerItemOrder.length; i++) {
-      _bottomNavigationBarItems.add(_CreateIcon(_footerItemOrder[i]));
+      _bottomNavigationBarItems.add(_createIcon(_footerItemOrder[i]));
     }
   }
  
   // アイコンを作成する
-  BottomNavigationBarItem _CreateIcon(String key) {
+  BottomNavigationBarItem _createIcon(String key) {
     return BottomNavigationBarItem(
       icon: Icon(_footerIcons[key]['icon']),
       title: Text(key),
