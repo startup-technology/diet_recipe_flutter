@@ -1,22 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:dietrecipeflutter/ui/chart/line_chart.dart';
-import 'package:dietrecipeflutter/ui/chart/bar_chart.dart';
-import 'package:dietrecipeflutter/ui/chart/pie_chart.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 
-class TopPage extends StatelessWidget {
-  List<double> points = [50, 55, 60, 55, 60, 61, 55, 54];
+class TopPage extends StatefulWidget {
+  @override
+  _TopDaPageStatue createState() => _TopDaPageStatue();
+}
 
-  List<String> labels = [
-    "2012",
-    "2013",
-    "2014",
-    "2015",
-    "2016",
-    "2017",
-    "2018",
-    "2019",
-  ];
 
+class _TopDaPageStatue extends State<TopPage> {
+  List<double> points = [50, 55, 60, 55, 60, 61, 55];
+
+  int targetBodyWeight = 0;
+  int bodyWeight = 0;
+  int currentHeight = 0;
+  int remnantWeight = 0;
+
+  _TopDaPageStatue() {
+    findBodyWeight().then((val) => setState(() {
+          bodyWeight = val;
+        }));
+    findCurrentHeight().then((val) => setState(() {
+          currentHeight = val;
+        }));
+    findTargetBodyWeight().then((val) => setState(() {
+        targetBodyWeight = val;
+      }));
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +39,7 @@ class TopPage extends StatelessWidget {
           margin: EdgeInsets.all(15.0),
           child: Column(
             children: <Widget>[
-              _targetWeight(), _currentWeight(),
+              _targetWeight(targetBodyWeight), _currentWeight(currentHeight, bodyWeight, targetBodyWeight),
               Text('体重変動', style: TextStyle(fontSize: 20.0)), // 3.1.1
               Container(
                 margin: EdgeInsets.only(top: 15.0),
@@ -46,7 +58,7 @@ class TopPage extends StatelessWidget {
     );
   }
 
-  Widget _targetWeight() {
+  Widget _targetWeight(targetBodyWeight) {
     return Container(
         margin: EdgeInsets.only(top: 30.0, bottom: 30.0),
         child: Row(
@@ -57,7 +69,7 @@ class TopPage extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(bottom: 10.0),
+                    margin: EdgeInsets.only(bottom: 15.0),
                     child: Text(
                       "目標体重",
                       style: TextStyle(fontSize: 15.0),
@@ -66,12 +78,12 @@ class TopPage extends StatelessWidget {
                   Container(
                     // 3.1.2行目
                     child: Text(
-                      "45kg",
-                      style: TextStyle(fontSize: 25.0),
+                      targetBodyWeight.toString() + ' kg',
+                      style: TextStyle(fontSize: 25.0)
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 15.0, right: 15.0, left: 15.0),
+                    margin: EdgeInsets.only(top: 30.0, right: 15.0, left: 15.0),
                     decoration: const BoxDecoration(
                       border: Border(
                         bottom: BorderSide(width: 1.0, color: Colors.grey),
@@ -85,29 +97,32 @@ class TopPage extends StatelessWidget {
         ));
   }
 
-  Widget _currentWeight() {
+  Widget _currentWeight(currentHeight, bodyWeight, targetBodyWeight) {
     return Container(
         child: Row(
       // 1行目
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        _buildButtonColumn('65kg', "体重"), // 2.1
-        _buildButtonColumn('160cm', "身長"), // 2.2
-        _buildButtonColumn('+5', "体重増減") // 2.3
+        _weightColumn(bodyWeight.toString(), "体重"), // 2.1
+        _heightColumn(currentHeight.toString(), "身長"), // 2.2
+        _changeWeightColumn((bodyWeight-targetBodyWeight).toString(), "体重増減") // 2.3
       ],
     ));
   }
 
-  Widget _buildButtonColumn(String physical, String label) {
+  Widget _weightColumn(String physical, String label) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(physical, style: TextStyle(fontSize: 25.0)), // 3.1.1
+        Row(children: <Widget>[
+          Text(physical, style: TextStyle(fontSize: 25.0)), 
+          Text('  kg', style: TextStyle(fontSize: 15.0)),
+        ]),
         Container(
           // 3.1.2
-          margin: const EdgeInsets.only(top: 8.0, bottom: 60.0),
+          margin: const EdgeInsets.only(top: 8.0, bottom: 40.0),
           child: Text(
             label,
             style: TextStyle(
@@ -118,5 +133,96 @@ class TopPage extends StatelessWidget {
         )
       ],
     );
+  }
+  
+  Widget _heightColumn(String physical, String label) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Row(children: <Widget>[
+          Text(physical, style: TextStyle(fontSize: 25.0)), 
+          Text('  cm', style: TextStyle(fontSize: 15.0)),
+        ]),
+        Container(
+          // 3.1.2
+          margin: const EdgeInsets.only(top: 8.0, bottom: 40.0),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 12.0,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+  Widget _changeWeightColumn(String physical, String label) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Row(children: <Widget>[
+          Text(physical, style: TextStyle(fontSize: 25.0, color: Colors.red)), 
+          Text('  kg', style: TextStyle(fontSize: 15.0)),
+        ]),
+        Container(
+          // 3.1.2
+          margin: const EdgeInsets.only(top: 8.0, bottom: 40.0),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 12.0,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Future<int> findBodyWeight() async {
+    final Database db =
+        await openDatabase(join(await getDatabasesPath, 'body_weight.db'));
+    DateTime now = DateTime.now();
+
+    List<Map> bodyWeights = await db.rawQuery('''
+        SELECT * 
+        FROM body_weights 
+        WHERE DATE(input_date) = DATE('$now')
+        ORDER BY id DESC
+        LIMIT 1
+      ''');
+
+    return bodyWeights.first['body_weight'];
+  }
+
+  Future<int> findCurrentHeight() async {
+    final Database db =
+        await openDatabase(join(await getDatabasesPath, 'current_height.db'));
+
+    List<Map> currentHeights = await db.rawQuery('''
+            SELECT * 
+            FROM current_heights
+            ORDER BY id DESC
+            LIMIT 1
+            ''');
+
+    return currentHeights.first['current_height'];
+  }
+
+  Future<int> findTargetBodyWeight() async {
+    final Database db = await openDatabase(
+        join(await getDatabasesPath, 'target_body_weight.db'));
+
+    List<Map> targetBodyWeights = await db.rawQuery('''
+            SELECT * 
+            FROM target_body_weights
+            ORDER BY id DESC
+            LIMIT 1
+            ''');
+
+    return targetBodyWeights.first['body_weight'];
   }
 }

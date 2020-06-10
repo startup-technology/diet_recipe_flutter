@@ -68,16 +68,33 @@ class _TargetWeightInputPageState extends State<TargetWeightInputPage> {
     super.dispose();
   }
 
+  createDatabase() async {
+    var databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, 'target_body_weight.db');
+
+    Database database = await openDatabase(path, version: 1,
+        onCreate: (Database db, int version) async {
+      await db.execute('''
+        create table target_body_weights (
+          id integer primary key autoincrement,
+          body_weight integer not null)
+      ''');
+    });
+
+    return database;
+  }
+
   void insertBodyWeight(int bodyWeight) async {
     Map<String, dynamic> row = {
-      'body_weight' : bodyWeight,
+      'body_weight': bodyWeight,
     };
     await dbHelper.insert(row, 'target_body_weights');
   }
 
   findBodyWeight() async {
     Database db = await dbHelper.database;
-    List<Map> bodyWeights = await db.rawQuery('SELECT * FROM target_body_weights ORDER BY ID DESC LIMIT 1');
+    List<Map> bodyWeights = await db
+        .rawQuery('SELECT * FROM target_body_weights ORDER BY ID DESC LIMIT 1');
     return bodyWeights;
   }
 
