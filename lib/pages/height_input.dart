@@ -67,9 +67,11 @@ class _HeightInputPageState extends State<HeightInputPage> {
   }
 
   createDatabase() async {
-    Database database = await openDatabase(
-        join(await getDatabasesPath, 'current_height.db'),
-        version: 1, onCreate: (Database db, int version) async {
+    var databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, 'current_height.db');
+
+    Database database = await openDatabase(path, version: 1,
+        onCreate: (Database db, int version) async {
       await db.execute('''
         create table current_heights (
           id integer primary key autoincrement,

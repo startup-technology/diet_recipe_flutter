@@ -68,9 +68,11 @@ class _TargetWeightInputPageState extends State<TargetWeightInputPage> {
   }
 
   createDatabase() async {
-    Database database = await openDatabase(
-        join(await getDatabasesPath, 'target_body_weight.db'),
-        version: 1, onCreate: (Database db, int version) async {
+    var databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, 'target_body_weight.db');
+
+    Database database = await openDatabase(path, version: 1,
+        onCreate: (Database db, int version) async {
       await db.execute('''
         create table target_body_weights (
           id integer primary key autoincrement,
