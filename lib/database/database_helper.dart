@@ -8,17 +8,13 @@ class DatabaseHelper {
   static final _databaseName = "diet_recipe.db";
   static final _databaseVersion = 1;
 
-  // static final table = 'target_body_weights'; // テーブル名
-  
-  // static final columnId = '_id'; // 列1
-  // static final columnBodyWeight = 'body_weight'; // 列2
-
   // DatabaseHelperクラスをシングルトンにするためのコンストラクタ
-  // DatabaseHelper._privateConstructor();
-  // static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
+  DatabaseHelper._privateConstructor();
+  static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
 
   // DBにアクセスするためのメソッド
   static Database _database;
+
   Future<Database> get database async {
     if (_database != null) return _database;
     // 初の場合はDBを作成する
@@ -52,29 +48,29 @@ class DatabaseHelper {
     return await db.insert(table, row); //テーブルにマップ型のものを挿入。追加時のrowIDを返り値にする
   }
 
-  // 全件取得
-  Future<List<Map<String, dynamic>>> queryAllRows() async {
-    Database db = await instance.database; //DBにアクセスする
-    return await db.query(table); //全件取得
-  }
+  // // 全件取得
+  // Future<List<Map<String, dynamic>>> queryAllRows() async {
+  //   Database db = await instance.database; //DBにアクセスする
+  //   return await db.query(table); //全件取得
+  // }
 
-  // データ件数取得
-  Future<int> queryRowCount() async {
-    Database db = await instance.database; //DBにアクセスする
-    return Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM $table'));
-  }
+  // // データ件数取得
+  // Future<int> queryRowCount() async {
+  //   Database db = await instance.database; //DBにアクセスする
+  //   return Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM $table'));
+  // }
 
-  // 更新
-  Future<int> update(Map<String, dynamic> row, String table) async {
-    Database db = await instance.database; //DBにアクセスする
-    int id = row[id]; //引数のマップ型のcolumnIDを取得
-    print([id]);
-    return await db.update(table, row, where: 'id = ?', whereArgs: [id]);
-  }
+  // // 更新
+  // Future<int> update(Map<String, dynamic> row, String table) async {
+  //   Database db = await instance.database; //DBにアクセスする
+  //   int id = row[id]; //引数のマップ型のcolumnIDを取得
+  //   print([id]);
+  //   return await db.update(table, row, where: 'id = ?', whereArgs: [id]);
+  // }
 
-  // 削除
-  Future<int> delete(int id, String table) async {
-    Database db = await instance.database;
-    return await db.delete(table, where: 'id = ?', whereArgs: [id]);
-  }
+  // // 削除
+  // Future<int> delete(int id, String table) async {
+  //   Database db = await instance.database;
+  //   return await db.delete(table, where: 'id = ?', whereArgs: [id]);
+  // }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:dietrecipeflutter/database/database_helper.dart';
 
@@ -10,6 +9,7 @@ class TargetWeightInputPage extends StatefulWidget {
 
 class _TargetWeightInputPageState extends State<TargetWeightInputPage> {
   final myController = TextEditingController();
+  final dbHelper = DatabaseHelper.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -68,45 +68,26 @@ class _TargetWeightInputPageState extends State<TargetWeightInputPage> {
     super.dispose();
   }
 
-  createDatabase() async {
-    // Database database = await openDatabase(
-    //     join(await getDatabasesPath, 'target_body_weight.db'),
-    //     version: 1, onCreate: (Database db, int version) async {
-    //   await db.execute('''
-    //     create table target_body_weights (
-    //       id integer primary key autoincrement,
-    //       body_weight integer not null)
-    //   ''');
-    // });
-
-    // return database;
-  }
-
   void insertBodyWeight(int bodyWeight) async {
-    // Database db = await DatabaseHelper.instance.database;
     Map<String, dynamic> row = {
       'body_weight' : bodyWeight,
     };
-    await DatabaseHelper.insert(row);
+    await dbHelper.insert(row, 'target_body_weights');
   }
 
-  // findBodyWeight() async {
-  //   final Database db = await createDatabase();
-
-  //   List<Map> bodyWeights = await db
-  //       .rawQuery('SELECT * FROM target_body_weights ORDER BY ID DESC LIMIT 1');
-
-  //   return bodyWeights;
-  // }
+  findBodyWeight() async {
+    Database db = await dbHelper.database;
+    List<Map> bodyWeights = await db.rawQuery('SELECT * FROM target_body_weights ORDER BY ID DESC LIMIT 1');
+    return bodyWeights;
+  }
 
   title() {
     var title;
-    // if (findBodyWeight() != null) {
-    //   title = '目標体重を編集してください';
-    // } else {
-    //   title = '目標体重を入力してください';
-    // }
-    title = '目標体重を入力してください';
+    if (findBodyWeight() != null) {
+      title = '目標体重を編集してください';
+    } else {
+      title = '目標体重を入力してください';
+    }
     return title;
   }
 }
