@@ -41,11 +41,10 @@ class _DayResultPageState extends State<DayResultPage> {
   }
 
   Future<int> findBodyWeight() async {
-    var databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'body_weight.db');
-    final Database db = await openDatabase(path);
-
+    final Database db =
+        await openDatabase(join(await getDatabasesPath, 'body_weight.db'));
     DateTime now = DateTime.now();
+
     List<Map> bodyWeights = await db.rawQuery('''
         SELECT * 
         FROM body_weights 
@@ -58,9 +57,8 @@ class _DayResultPageState extends State<DayResultPage> {
   }
 
   Future<int> findCurrentHeight() async {
-    var databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'current_height.db');
-    final Database db = await openDatabase(path);
+    final Database db =
+        await openDatabase(join(await getDatabasesPath, 'current_height.db'));
 
     List<Map> currentHeights = await db.rawQuery('''
             SELECT * 
@@ -73,9 +71,8 @@ class _DayResultPageState extends State<DayResultPage> {
   }
 
   Future<int> findTargetBodyWeight() async {
-    var databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'target_body_weight.db');
-    final Database db = await openDatabase(path);
+    final Database db = await openDatabase(
+        join(await getDatabasesPath, 'target_body_weight.db'));
 
     List<Map> targetBodyWeights = await db.rawQuery('''
             SELECT * 
