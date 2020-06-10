@@ -14,7 +14,7 @@ class _HeightInputPageState extends State<HeightInputPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('現在の身長を入力してください'),
+        title: Text(title()),
       ),
       body: Center(
         child: Column(
@@ -96,5 +96,15 @@ class _HeightInputPageState extends State<HeightInputPage> {
     print(currentHeights);
 
     return currentHeights;
+  }
+
+  title() {
+    var title;
+    if (findCurrentHeight() != null) {
+      title = '現在の身長を編集してください';
+    } else {
+      title = '現在の身長を入力してください';
+    }
+    return title;
   }
 }
