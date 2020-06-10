@@ -14,7 +14,7 @@ class _HeightInputPageState extends State<HeightInputPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('現在の身長を入力してください'),
+        title: Text(title()),
       ),
       body: Center(
         child: Column(
@@ -84,5 +84,24 @@ class _HeightInputPageState extends State<HeightInputPage> {
     final Database db = await createDatabase();
 
     await db.insert('current_heights', {'current_height': currentHeight});
+  }
+
+  findCurrentHeight() async {
+    final Database db = await createDatabase();
+
+    List<Map> currentHeights =
+        await db.rawQuery('SELECT * FROM current_heights');
+
+    return currentHeights;
+  }
+
+  title() {
+    var title;
+    if (findCurrentHeight() != null) {
+      title = '現在の身長を編集してください';
+    } else {
+      title = '現在の身長を入力してください';
+    }
+    return title;
   }
 }

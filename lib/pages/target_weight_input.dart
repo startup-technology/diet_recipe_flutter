@@ -15,7 +15,7 @@ class _TargetWeightInputPageState extends State<TargetWeightInputPage> {
     return Scaffold(
       backgroundColor: Color(0xFFFFFFFFF),
       appBar: AppBar(
-        title: Text('目標体重を入力してください'),
+        title: Text(title()),
       ),
       body: Center(
         child: Column(
@@ -85,5 +85,24 @@ class _TargetWeightInputPageState extends State<TargetWeightInputPage> {
     final Database db = await createDatabase();
 
     await db.insert('target_body_weights', {'body_weight': bodyWeight});
+  }
+
+  findBodyWeight() async {
+    final Database db = await createDatabase();
+
+    List<Map> bodyWeights =
+        await db.rawQuery('SELECT * FROM target_body_weights ORDER BY ID DESC LIMIT 1');
+
+    return bodyWeights;
+  }
+
+  title() {
+    var title;
+    if (findBodyWeight() != null) {
+      title = '目標体重を編集してください';
+    } else {
+      title = '目標体重を入力してください';
+    }
+    return title;
   }
 }

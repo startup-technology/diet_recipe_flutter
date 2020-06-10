@@ -103,9 +103,6 @@ class _WeightInputPageState extends State<WeightInputPage> {
     final Database db = await createDatabase();
 
     await db.insert(
-      'body_weights',
-      {'input_date': inputDate, 'body_weight': bodyWeight},
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+        'body_weights', {'input_date': inputDate, 'body_weight': bodyWeight});
   }
 }
