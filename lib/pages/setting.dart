@@ -32,7 +32,7 @@ class _SettingPageState extends State<SettingPage> {
             children: <Widget>[
               Container(
                 child: Card(
-                  margin: const EdgeInsets.only(top: 40.0),
+                  margin: const EdgeInsets.only(top: 20.0),
                   child: Column(
                     children: [
                       ListTile(
@@ -71,7 +71,7 @@ class _SettingPageState extends State<SettingPage> {
               ),
               Container(
                 child: Card(
-                  margin: const EdgeInsets.only(top: 40.0),
+                  margin: const EdgeInsets.only(top: 20.0),
                   child: Column(
                     children: [
                       ListTile(
@@ -95,7 +95,7 @@ class _SettingPageState extends State<SettingPage> {
               ),
               Container(
                 child: Card(
-                  margin: const EdgeInsets.only(top: 40.0),
+                  margin: const EdgeInsets.only(top: 20.0),
                   child: Column(
                     children: [
                       ListTile(

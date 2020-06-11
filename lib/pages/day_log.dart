@@ -16,8 +16,8 @@ class _DayLogPageState extends State<DayLogPage> {
 
   _DayLogPageState() {
     findTargetBodyWeight().then((val) => setState(() {
-      currentHeight = val;
-    }));
+          currentHeight = val;
+        }));
   }
 
   @override
@@ -25,12 +25,13 @@ class _DayLogPageState extends State<DayLogPage> {
     final datetime = ModalRoute.of(context).settings.arguments;
     findBodyWeight(datetime).then((val) => setState(() {
           bodyWeight = val;
-    }));
+        }));
 
     initializeDateFormatting('ja_JP');
     return Scaffold(
       appBar: AppBar(
-        title: Text((DateFormat('yyyy/MM/dd(E)', 'ja_JP')).format(datetime) + 'の教官のお言葉'),
+        title: Text((DateFormat('yyyy/MM/dd(E)', 'ja_JP')).format(datetime) +
+            'の教官のお言葉'),
       ),
       body: Container(
           margin: const EdgeInsets.all(16.0),
@@ -48,7 +49,7 @@ class _DayLogPageState extends State<DayLogPage> {
   var databasesPath = getDatabasesPath();
   Future<int> findBodyWeight(datetime) async {
     final Database db =
-    await openDatabase(join(await databasesPath, 'body_weight.db'));
+        await openDatabase(join(await databasesPath, 'body_weight.db'));
     DateTime now = DateTime.now();
 
     List<Map> bodyWeights = await db.rawQuery('''
@@ -64,7 +65,7 @@ class _DayLogPageState extends State<DayLogPage> {
 
   Future<int> findCurrentHeight() async {
     final Database db =
-    await openDatabase(join(await databasesPath, 'current_height.db'));
+        await openDatabase(join(await databasesPath, 'current_height.db'));
 
     List<Map> currentHeights = await db.rawQuery('''
             SELECT * 
@@ -77,8 +78,8 @@ class _DayLogPageState extends State<DayLogPage> {
   }
 
   Future<int> findTargetBodyWeight() async {
-    final Database db = await openDatabase(
-        join(await databasesPath, 'target_body_weight.db'));
+    final Database db =
+        await openDatabase(join(await databasesPath, 'target_body_weight.db'));
 
     List<Map> targetBodyWeights = await db.rawQuery('''
             SELECT * 
@@ -95,25 +96,25 @@ Widget _angerlevelArea(weight, height) {
   return Container(
       child: Container(
           child: Row(
-            children: <Widget>[
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[_bmi(weight, height)],
-                ),
-              ),
-            ],
-          )));
+    children: <Widget>[
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[_bmi(weight, height)],
+        ),
+      ),
+    ],
+  )));
 }
 
 Widget _angermessageArea(weight, height) {
   return Container(
       child: Container(
-        child: Container(
-          margin: const EdgeInsets.only(bottom: 4.0),
-          child: Column(children: <Widget>[_message(weight, height)]),
-        ),
-      ));
+    child: Container(
+      margin: const EdgeInsets.only(bottom: 4.0),
+      child: Column(children: <Widget>[_message(weight, height)]),
+    ),
+  ));
 }
 
 Widget _snsshareArea() {
@@ -138,19 +139,19 @@ Widget _snsshareArea() {
                     ),
                     Container(
                         child: IconButton(
-                          icon: Icon(
-                            Icons.share,
-                          ),
-                          onPressed: () {
-                            Share.share("シェアしたい内容を記入");
-                            // if (_formKey.currentState.validate()) {
-                            //   _formKey.currentState.save();
-                            //   Share.share(
-                            //     "シェアしたい内容を記入"
-                            //   );
-                            // }
-                          },
-                        )),
+                      icon: Icon(
+                        Icons.share,
+                      ),
+                      onPressed: () {
+                        Share.share("シェアしたい内容を記入");
+                        // if (_formKey.currentState.validate()) {
+                        //   _formKey.currentState.save();
+                        //   Share.share(
+                        //     "シェアしたい内容を記入"
+                        //   );
+                        // }
+                      },
+                    )),
                     Container(
                       margin: const EdgeInsets.only(bottom: 4.0),
                       child: Text(
@@ -287,19 +288,19 @@ Widget _message(weight, height) {
 
   return Container(
       child: Container(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: <Widget>[
-            Image(
-              image: AssetImage(image),
-              fit: BoxFit.fill,
-              height: 100.0,
-            ),
-            Text(
-              message,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-            ),
-          ],
+    padding: const EdgeInsets.all(16.0),
+    child: Row(
+      children: <Widget>[
+        Image(
+          image: AssetImage(image),
+          fit: BoxFit.fill,
+          height: 100.0,
         ),
-      ));
+        Text(
+          message,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+        ),
+      ],
+    ),
+  ));
 }

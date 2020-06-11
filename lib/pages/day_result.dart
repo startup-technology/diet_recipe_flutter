@@ -16,7 +16,7 @@ class _DayResultPageState extends State<DayResultPage> {
     findBodyWeight().then((val) => setState(() {
           bodyWeight = val;
         }));
-    findTargetBodyWeight().then((val) => setState(() {
+    findCurrentHeight().then((val) => setState(() {
           currentHeight = val;
         }));
   }
@@ -44,10 +44,9 @@ class _DayResultPageState extends State<DayResultPage> {
     DateTime now = DateTime.now();
     var query;
     query = await dbHelper.queryRows(
-      table: 'body_weights',
-      where: 'DATE(input_date) =',
-      whereArgs: "DATE('$now')"
-    );
+        table: 'body_weights',
+        where: 'DATE(input_date) =',
+        whereArgs: "DATE('$now')");
     return query.first['body_weight'];
   }
 
@@ -241,10 +240,10 @@ Widget _message(weight, height) {
     message = 'まだ問題ないけど、\n油断は禁止だぞ！';
     image = 'images/kyoukan1.png';
   } else if (bmi > 23 && bmi <= 25) {
-    message = 'お前そろそろやばいんじゃないか！\nデブになりたいのか！\nこれ以上だとお前は豚だぞ！\nわかってるのか？';
+    message = 'お前そろそろやばいん\nじゃないか！デブになりたい\nのか！これ以上だとお前は豚\nだぞ！わかってるのか？';
     image = 'images/kyoukan2.png';
   } else if (bmi > 25 && bmi <= 30) {
-    message = 'もうお前はデブだな、ラーメン、肉、ご飯が\nそんなにうまいのか！\nダイエットする気はないよね？\nやめっちまえば？';
+    message = 'もうお前はデブだな、\nラーメン、肉、ご飯が\nそんなにうまいのか！ダイエット\nする気はないよね？\nやめっちまえば？';
     image = 'images/kyoukan3.png';
   } else if (bmi > 30 && bmi <= 35) {
     message = 'お前もう豚じゃねえかよ。\n餌あげよか？';
