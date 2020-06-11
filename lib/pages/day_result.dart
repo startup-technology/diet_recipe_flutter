@@ -16,7 +16,7 @@ class _DayResultPageState extends State<DayResultPage> {
     findBodyWeight().then((val) => setState(() {
           bodyWeight = val;
         }));
-    findTargetBodyWeight().then((val) => setState(() {
+    findCurrentHeight().then((val) => setState(() {
           currentHeight = val;
         }));
   }
@@ -25,7 +25,21 @@ class _DayResultPageState extends State<DayResultPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: null,
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.close, color: Colors.black,),
+            onPressed: () => setState(() {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, '/');
+            }),
+          ),
+        ],
         title: Text('教官のお言葉'),
+        centerTitle: true,
       ),
       body: Container(
           margin: const EdgeInsets.all(16.0),
