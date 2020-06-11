@@ -1,6 +1,25 @@
+import 'package:dietrecipeflutter/database/database_helper.dart';
 import 'package:flutter/material.dart';
 
-class SettingPage extends StatelessWidget {
+class SettingPage extends StatefulWidget {
+  @override
+  _SettingPageState createState() => _SettingPageState();
+}
+
+class _SettingPageState extends State<SettingPage> {
+  int targetBodyWeight = 0;
+  int currentHeight = 0;
+  final dbHelper = DatabaseHelper.instance;
+
+  _SettingPageState() {
+    findTargetBodyWeight().then((val) => setState(() {
+          targetBodyWeight = val;
+        }));
+    findCurrentHeight().then((val) => setState(() {
+          currentHeight = val;
+        }));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +41,7 @@ class SettingPage extends StatelessWidget {
                         trailing: Wrap(
                           spacing: 12,
                           children: <Widget>[
-                            Text('160cm'),
+                            Text(currentHeight.toString() + 'cm'),
                             Icon(Icons.arrow_forward_ios),
                           ],
                         ),
@@ -33,11 +52,11 @@ class SettingPage extends StatelessWidget {
                       ),
                       Divider(),
                       ListTile(
-                        title: Text('体重'),
+                        title: Text('目標体重'),
                         trailing: Wrap(
                           spacing: 12,
                           children: <Widget>[
-                            Text('50kg'),
+                            Text(targetBodyWeight.toString() + 'kg'),
                             Icon(Icons.arrow_forward_ios),
                           ],
                         ),
@@ -96,5 +115,17 @@ class SettingPage extends StatelessWidget {
             ],
           ),
         ));
+  }
+
+  Future<int> findCurrentHeight() async {
+    var query;
+    query = await dbHelper.queryRowLast('current_heights');
+    return query.first['current_height'];
+  }
+
+  Future<int> findTargetBodyWeight() async {
+    var query;
+    query = await dbHelper.queryRowLast('target_body_weights');
+    return query.first['body_weight'];
   }
 }
