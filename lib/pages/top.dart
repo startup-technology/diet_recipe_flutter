@@ -1,23 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:dietrecipeflutter/ui/chart/line_chart.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
+import 'package:dietrecipeflutter/database/database_helper.dart';
+// import 'package:dietrecipeflutter/ui/chart/bar_chart.dart';
+// import 'package:dietrecipeflutter/ui/chart/pie_chart.dart';
 
 class TopPage extends StatefulWidget {
   @override
-  _TopDaPageStatue createState() => _TopDaPageStatue();
+  _TopPageState createState() => _TopPageState();
 }
 
-
-class _TopDaPageStatue extends State<TopPage> {
+class _TopPageState extends State<TopPage> {
+  final dbHelper = DatabaseHelper.instance;
   List<double> points = [50, 55, 60, 55, 60, 61, 55];
+  List<String> labels = [
+    "2012",
+    "2013",
+    "2014",
+    "2015",
+    "2016",
+    "2017",
+    "2018",
+    "2019",
+  ];
 
   int targetBodyWeight = 0;
   int bodyWeight = 0;
   int currentHeight = 0;
   int remnantWeight = 0;
 
-  _TopDaPageStatue() {
+  _TopPageState() {
     findBodyWeight().then((val) => setState(() {
           bodyWeight = val;
         }));
@@ -183,46 +194,27 @@ class _TopDaPageStatue extends State<TopPage> {
   }
 
   Future<int> findBodyWeight() async {
-    final Database db =
-        await openDatabase(join(await getDatabasesPath, 'body_weight.db'));
     DateTime now = DateTime.now();
-
-    List<Map> bodyWeights = await db.rawQuery('''
-        SELECT * 
-        FROM body_weights 
-        WHERE DATE(input_date) = DATE('$now')
-        ORDER BY id DESC
-        LIMIT 1
-      ''');
-
-    return bodyWeights.first['body_weight'];
+    var query;
+    query = await dbHelper.queryRows(
+      table: 'body_weights',
+      where: 'DATE(input_date) =',
+      whereArgs: "DATE('$now')"
+    );
+    return query.first['body_weight'];
   }
 
   Future<int> findCurrentHeight() async {
-    final Database db =
-        await openDatabase(join(await getDatabasesPath, 'current_height.db'));
-
-    List<Map> currentHeights = await db.rawQuery('''
-            SELECT * 
-            FROM current_heights
-            ORDER BY id DESC
-            LIMIT 1
-            ''');
-
-    return currentHeights.first['current_height'];
+    var query;
+    query = await dbHelper.queryRowLast('current_heights');
+    print(query);
+    return query.first['current_height'];
   }
 
   Future<int> findTargetBodyWeight() async {
-    final Database db = await openDatabase(
-        join(await getDatabasesPath, 'target_body_weight.db'));
-
-    List<Map> targetBodyWeights = await db.rawQuery('''
-            SELECT * 
-            FROM target_body_weights
-            ORDER BY id DESC
-            LIMIT 1
-            ''');
-
-    return targetBodyWeights.first['body_weight'];
+    var query;
+    query = await dbHelper.queryRowLast('target_body_weights');
+    print(query);
+    return query.first['body_weight'];
   }
 }

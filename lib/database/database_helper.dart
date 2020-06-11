@@ -12,6 +12,11 @@ class DatabaseHelper {
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
 
+  // シングルトンにする必要あるのか...？
+  // DatabaseHelper._internal();
+  // static final DatabaseHelper instance = DatabaseHelper._internal();
+  
+
   // DBにアクセスするためのメソッド
   static Database _database;
 
@@ -35,7 +40,7 @@ class DatabaseHelper {
   // DBを作成するメソッド
   Future _onCreate(Database db, int version) async {
     await db.execute('CREATE TABLE target_body_weights (id INTEGER PRIMARY KEY autoincrement, body_weight INTEGER NOT NULL)');
-    await db.execute('CREATE TABLE current_height (id INTEGER PRIMARY KEY autoincrement, current_height INTEGER NOT NULL)');
+    await db.execute('CREATE TABLE current_heights (id INTEGER PRIMARY KEY autoincrement, current_height INTEGER NOT NULL)');
     await db.execute('CREATE TABLE body_weights (id INTEGER PRIMARY KEY autoincrement, input_date datetime NOT NULL, body_weight INTEGER NOT NULL)');
   }
   
@@ -44,8 +49,20 @@ class DatabaseHelper {
   // 挿入
   Future<int> insert(Map<String, dynamic> row, String table) async {
     Database db = await instance.database; //DBにアクセスする
-    print(await db.query(table));
     return await db.insert(table, row); //テーブルにマップ型のものを挿入。追加時のrowIDを返り値にする
+  }
+
+  // 条件取得(最後)
+  Future<List<Map<String, dynamic>>> queryRowLast(String table) async {
+    Database db = await instance.database; //DBにアクセスする
+    return await db.rawQuery('SELECT * FROM $table ORDER BY ID DESC LIMIT 1');
+  }
+
+  // 条件取得
+  Future<List<Map<String, dynamic>>> queryRows({String table, String where, String whereArgs}) async {
+    Database db = await instance.database; //DBにアクセスする
+    // return await db.query(table, where: where, whereArgs: whereArgs);
+    return await db.rawQuery('SELECT * FROM $table WHERE $where $whereArgs ORDER BY ID DESC LIMIT 1');
   }
 
   // // 全件取得

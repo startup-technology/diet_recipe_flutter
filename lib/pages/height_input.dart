@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:dietrecipeflutter/database/database_helper.dart';
 
 class HeightInputPage extends StatefulWidget {
   @override
@@ -9,6 +8,7 @@ class HeightInputPage extends StatefulWidget {
 
 class _HeightInputPageState extends State<HeightInputPage> {
   final myController = TextEditingController();
+  final dbHelper = DatabaseHelper.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -66,35 +66,16 @@ class _HeightInputPageState extends State<HeightInputPage> {
     super.dispose();
   }
 
-  createDatabase() async {
-    var databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'current_height.db');
-
-    Database database = await openDatabase(path, version: 1,
-        onCreate: (Database db, int version) async {
-      await db.execute('''
-        create table current_heights (
-          id integer primary key autoincrement,
-          current_height integer not null)
-      ''');
-    });
-
-    return database;
-  }
-
   void insertCurrentHeight(int currentHeight) async {
-    final Database db = await createDatabase();
-
-    await db.insert('current_heights', {'current_height': currentHeight});
+    Map<String, dynamic> row = {
+      'current_height' : currentHeight,
+    };
+    await dbHelper.insert(row, 'current_heights');
   }
 
   findCurrentHeight() async {
-    final Database db = await createDatabase();
-
-    List<Map> currentHeights =
-        await db.rawQuery('SELECT * FROM current_heights');
-
-    return currentHeights;
+    var query = await dbHelper.queryRowLast('current_heights');
+    return query;
   }
 
   title() {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 import 'package:share/share.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:dietrecipeflutter/database/database_helper.dart';
 
 class DayResultPage extends StatefulWidget {
   @override
@@ -11,6 +10,7 @@ class DayResultPage extends StatefulWidget {
 class _DayResultPageState extends State<DayResultPage> {
   int bodyWeight = 0;
   int currentHeight = 0;
+  final dbHelper = DatabaseHelper.instance;
 
   _DayResultPageState() {
     findBodyWeight().then((val) => setState(() {
@@ -41,50 +41,28 @@ class _DayResultPageState extends State<DayResultPage> {
   }
 
   Future<int> findBodyWeight() async {
-    var databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'body_weight.db');
-    final Database db = await openDatabase(path);
-
     DateTime now = DateTime.now();
-    List<Map> bodyWeights = await db.rawQuery('''
-        SELECT * 
-        FROM body_weights 
-        WHERE DATE(input_date) = DATE('$now')
-        ORDER BY id DESC
-        LIMIT 1
-      ''');
-
-    return bodyWeights.first['body_weight'];
+    var query;
+    query = await dbHelper.queryRows(
+      table: 'body_weights',
+      where: 'DATE(input_date) =',
+      whereArgs: "DATE('$now')"
+    );
+    return query.first['body_weight'];
   }
 
   Future<int> findCurrentHeight() async {
-    var databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'current_height.db');
-    final Database db = await openDatabase(path);
-
-    List<Map> currentHeights = await db.rawQuery('''
-            SELECT * 
-            FROM current_heights
-            ORDER BY id DESC
-            LIMIT 1
-            ''');
-
-    return currentHeights.first['current_height'];
+    var query;
+    query = await dbHelper.queryRowLast('current_heights');
+    print(query);
+    return query.first['current_height'];
   }
 
   Future<int> findTargetBodyWeight() async {
-    var databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'target_body_weight.db');
-    final Database db = await openDatabase(path);
-
-    List<Map> targetBodyWeights = await db.rawQuery('''
-            SELECT * 
-            FROM target_body_weights
-            ORDER BY id DESC
-            LIMIT 1
-            ''');
-
-    return targetBodyWeights.first['body_weight'];
+    var query;
+    query = await dbHelper.queryRowLast('target_body_weights');
+    print(query);
+    return query.first['body_weight'];
   }
 }
 
