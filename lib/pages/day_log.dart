@@ -17,12 +17,12 @@ class _DayLogPageState extends State<DayLogPage> {
 
   _DayLogPageState() {
     findCurrentHeight().then((val) => setState(() {
-      currentHeight = val;
-    }));
+          currentHeight = val;
+        }));
 
     findTargetBodyWeight().then((val) => setState(() {
-      targetBodyWeight = val;
-    }));
+          targetBodyWeight = val;
+        }));
   }
 
   @override
@@ -30,12 +30,13 @@ class _DayLogPageState extends State<DayLogPage> {
     final datetime = ModalRoute.of(context).settings.arguments;
     findBodyWeight(datetime).then((val) => setState(() {
           bodyWeight = val;
-    }));
+        }));
 
     initializeDateFormatting('ja_JP');
     return Scaffold(
       appBar: AppBar(
-        title: Text((DateFormat('yyyy/MM/dd(E)', 'ja_JP')).format(datetime) + 'の教官のお言葉'),
+        title: Text((DateFormat('yyyy/MM/dd(E)', 'ja_JP')).format(datetime) +
+            'の教官のお言葉'),
       ),
       body: Container(
           margin: const EdgeInsets.all(16.0),
@@ -53,10 +54,9 @@ class _DayLogPageState extends State<DayLogPage> {
   Future<int> findBodyWeight(datetime) async {
     var query;
     query = await dbHelper.queryRows(
-      table: 'body_weights',
-      where: 'DATE(input_date) =',
-      whereArgs: "DATE('$datetime')"
-    );
+        table: 'body_weights',
+        where: 'DATE(input_date) =',
+        whereArgs: "DATE('$datetime')");
     return query.first['body_weight'];
   }
 
@@ -79,25 +79,25 @@ Widget _angerlevelArea(weight, height, targetWeight) {
   return Container(
       child: Container(
           child: Row(
-            children: <Widget>[
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[_bmi(weight, height, targetWeight)],
-                ),
-              ),
-            ],
-          )));
+    children: <Widget>[
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[_bmi(weight, height, targetWeight)],
+        ),
+      ),
+    ],
+  )));
 }
 
 Widget _angermessageArea(weight, height) {
   return Container(
       child: Container(
-        child: Container(
-          margin: const EdgeInsets.only(bottom: 4.0),
-          child: Column(children: <Widget>[_message(weight, height)]),
-        ),
-      ));
+    child: Container(
+      margin: const EdgeInsets.only(bottom: 4.0),
+      child: Column(children: <Widget>[_message(weight, height)]),
+    ),
+  ));
 }
 
 Widget _snsshareArea() {
@@ -122,19 +122,19 @@ Widget _snsshareArea() {
                     ),
                     Container(
                         child: IconButton(
-                          icon: Icon(
-                            Icons.share,
-                          ),
-                          onPressed: () {
-                            Share.share("シェアしたい内容を記入");
-                            // if (_formKey.currentState.validate()) {
-                            //   _formKey.currentState.save();
-                            //   Share.share(
-                            //     "シェアしたい内容を記入"
-                            //   );
-                            // }
-                          },
-                        )),
+                      icon: Icon(
+                        Icons.share,
+                      ),
+                      onPressed: () {
+                        Share.share("シェアしたい内容を記入");
+                        // if (_formKey.currentState.validate()) {
+                        //   _formKey.currentState.save();
+                        //   Share.share(
+                        //     "シェアしたい内容を記入"
+                        //   );
+                        // }
+                      },
+                    )),
                     Container(
                       margin: const EdgeInsets.only(bottom: 4.0),
                       child: Text(
@@ -191,7 +191,7 @@ Widget _bmi(weight, height, targetWeight) {
                               fontWeight: FontWeight.bold, fontSize: 16.0),
                         ),
                         Text(
-                         (weight - targetWeight).toString() + "kg",
+                          (weight - targetWeight).toString() + "kg",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16.0),
                         )
@@ -271,19 +271,19 @@ Widget _message(weight, height) {
 
   return Container(
       child: Container(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: <Widget>[
-            Image(
-              image: AssetImage(image),
-              fit: BoxFit.fill,
-              height: 100.0,
-            ),
-            Text(
-              message,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-            ),
-          ],
+    padding: const EdgeInsets.all(16.0),
+    child: Row(
+      children: <Widget>[
+        Image(
+          image: AssetImage(image),
+          fit: BoxFit.fill,
+          height: 100.0,
         ),
-      ));
+        Text(
+          message,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+        ),
+      ],
+    ),
+  ));
 }
