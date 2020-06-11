@@ -15,7 +15,7 @@ class _DayLogPageState extends State<DayLogPage> {
   final dbHelper = DatabaseHelper.instance;
 
   _DayLogPageState() {
-    findTargetBodyWeight().then((val) => setState(() {
+    findCurrentHeight().then((val) => setState(() {
       currentHeight = val;
     }));
   }
