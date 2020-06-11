@@ -13,6 +13,7 @@ class _HeightInputPageState extends State<HeightInputPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFFFFFFFF),
       appBar: AppBar(
         title: Text(title()),
       ),
