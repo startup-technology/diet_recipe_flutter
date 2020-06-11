@@ -115,7 +115,7 @@ class _TopPageState extends State<TopPage> {
         _weightColumn(bodyWeight.toString(), "体重"), // 2.1
         _heightColumn(currentHeight.toString(), "身長"), // 2.2
         _changeWeightColumn(
-            (bodyWeight - targetBodyWeight).toString(), "体重増減") // 2.3,
+            (bodyWeight - targetBodyWeight).toString(), "目標体重まで") // 2.3,
       ],
     ));
   }

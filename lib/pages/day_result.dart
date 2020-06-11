@@ -10,7 +10,9 @@ class DayResultPage extends StatefulWidget {
 class _DayResultPageState extends State<DayResultPage> {
   int bodyWeight = 0;
   int currentHeight = 0;
+  int targetBodyWeight = 0;
   final dbHelper = DatabaseHelper.instance;
+
 
   _DayResultPageState() {
     findBodyWeight().then((val) => setState(() {
@@ -18,6 +20,9 @@ class _DayResultPageState extends State<DayResultPage> {
         }));
     findCurrentHeight().then((val) => setState(() {
           currentHeight = val;
+        }));
+    findTargetBodyWeight().then((val) => setState(() {
+          targetBodyWeight = val;
         }));
   }
 
@@ -46,7 +51,7 @@ class _DayResultPageState extends State<DayResultPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              _angerlevelArea(bodyWeight, currentHeight),
+              _angerlevelArea(bodyWeight, currentHeight, targetBodyWeight),
               _angermessageArea(bodyWeight, currentHeight),
               _snsshareArea()
             ],
@@ -80,7 +85,7 @@ class _DayResultPageState extends State<DayResultPage> {
   }
 }
 
-Widget _angerlevelArea(weight, height) {
+Widget _angerlevelArea(weight, height, targetWeight) {
   return Container(
       child: Container(
           child: Row(
@@ -88,7 +93,7 @@ Widget _angerlevelArea(weight, height) {
       Expanded(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[_bmi(weight, height)],
+          children: <Widget>[_bmi(weight, height, targetWeight)],
         ),
       ),
     ],
@@ -156,7 +161,7 @@ Widget _snsshareArea() {
           )));
 }
 
-Widget _bmi(weight, height) {
+Widget _bmi(weight, height, targetWeight) {
   var heightMeter = height / 100;
   double bmi = weight / (heightMeter * heightMeter);
   var angerPercent = '';
@@ -189,12 +194,12 @@ Widget _bmi(weight, height) {
                       margin: const EdgeInsets.only(bottom: 4.0),
                       child: Row(children: <Widget>[
                         Text(
-                          "体重増減：",
+                          "目標体重まで：",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16.0),
                         ),
                         Text(
-                          "+5kg",
+                         (weight - targetWeight).toString() + "kg",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16.0),
                         )
