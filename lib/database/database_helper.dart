@@ -65,6 +65,12 @@ class DatabaseHelper {
     return await db.rawQuery('SELECT * FROM $table WHERE $where $whereArgs ORDER BY ID DESC LIMIT 1');
   }
 
+  // 最新の7件の体重を取得
+  Future<List<Map<String, dynamic>>> queryLatestweek() async {
+    Database db = await instance.database; //DBにアクセスする
+    return await db.rawQuery('select * from body_weights ORDER BY ID ASC LIMIT 7');
+  }
+
   // // 全件取得
   // Future<List<Map<String, dynamic>>> queryAllRows() async {
   //   Database db = await instance.database; //DBにアクセスする

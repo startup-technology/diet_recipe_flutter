@@ -11,7 +11,7 @@ class TopPage extends StatefulWidget {
 
 class _TopPageState extends State<TopPage> {
   final dbHelper = DatabaseHelper.instance;
-  List<double> points = [50, 55, 60, 55, 60, 61, 55];
+  List<double> points = [];
   int targetBodyWeight = 0;
   int bodyWeight = 0;
   int currentHeight = 0;
@@ -25,6 +25,13 @@ class _TopPageState extends State<TopPage> {
         }));
     findTargetBodyWeight().then((val) => setState(() {
           targetBodyWeight = val;
+        }));
+    findBodyWeightHistory().then((vals) => setState(() {
+      List<double> array = [];
+      for (var val in vals) {
+        array.add(val['body_weight'].toDouble());
+      }
+          points = array;
         }));
   }
   @override
@@ -214,5 +221,12 @@ class _TopPageState extends State<TopPage> {
     query = await dbHelper.queryRowLast('target_body_weights');
     print(query);
     return query.last['body_weight'];
+  }
+
+  Future<List<Map>> findBodyWeightHistory() async {
+    var query;
+    query = await dbHelper.queryLatestweek();
+    print(query);
+    return query;
   }
 }
