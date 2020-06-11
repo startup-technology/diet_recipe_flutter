@@ -26,7 +26,7 @@ class _WeightInputPageState extends State<WeightInputPage> {
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(
-                  top: 100.0, left: 30.0, bottom: 30.0, right: 30.0),
+                  top: 50.0, left: 30.0, bottom: 30.0, right: 30.0),
               child: Column(
                 children: <Widget>[
                   Container(
